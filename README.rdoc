@@ -1,5 +1,4 @@
 # sw-backend
-==============================
 
 
 Backend from hands-on angular
