@@ -1,4 +1,6 @@
 class SessionsController < Devise::SessionsController
+  before_action :authenticate_user_from_token!, except: [:create]
+
   def create
     user = User.find_for_database_authentication(email: params[:email])
     if user && user.valid_password?(params[:password])
@@ -7,5 +9,11 @@ class SessionsController < Devise::SessionsController
     else
       render nothing: true, status: :unauthorized
     end
+  end
+
+  def destroy
+    current_user.authentication_token = nil
+    current_user.save!
+    render json: {}
   end
 end
